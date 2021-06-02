@@ -1,0 +1,23 @@
+name: Run ci-scripts
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  run:
+    name: Run ci-scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout benchmarks repository
+        uses: actions/checkout@v2
+
+      - name: Download pre-build ci-scripts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build-ci-scripts.yml
+          repo: 'iocost-benchmark/ci-scripts'
+
+      - name: Find files
+        run: find ${GITHUB_WORKSPACE}
+
