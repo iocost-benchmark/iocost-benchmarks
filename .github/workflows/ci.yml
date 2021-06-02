@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  issues:
+  issue_comment:
+
+jobs:
+  run:
+    name: Run CI scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout benchmarks repository
+        uses: actions/checkout@v2
+
+
+      - name: Download iocost-benchmarks-ci binary
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          repo: 'iocost-benchmark/iocost-benchmarks-ci'
+          workflow: ci.yml
+          branch: main
+
+      - name: Set iocost-benchmarks-ci binary permissions
+        run: |
+          chmod +x iocost-benchmarks-ci/iocost-benchmarks-ci
+
+      - name: Smoketest iocost-benchmarks-ci
+        run: |
+          iocost-benchmarks-ci/iocost-benchmarks-ci --version
+
+
+      - name: Download resctl-demo binary
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          repo: 'iocost-benchmark/iocost-benchmarks-ci'
+          workflow: build-resctl-demo.yml
+          branch: main
+
+      - name: Set resctl-demo permissions
+        run: |
+          chmod +x resctl-demo/resctl-bench
+
+      - name: Smoketest resctl-demo
+        run: |
+          resctl-demo/resctl-bench --version
+
+
+      - name: Run iocost-benchmarks-ci script
+        env:
+          RESCTL_BENCH: resctl-demo/resctl-bench
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: iocost-benchmarks-ci/iocost-benchmarks-ci ci-event
