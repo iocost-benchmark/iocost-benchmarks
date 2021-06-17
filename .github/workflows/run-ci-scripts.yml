@@ -18,8 +18,13 @@ jobs:
           workflow: build-ci-scripts.yml
           repo: 'iocost-benchmark/ci-scripts'
 
+      - name: Set permissions on ci-scripts
+        run: |
+          chmod +x ci-scripts/ci-scripts/target/release/benchmark-database-ci
+          chmod +x ci-scripts/resctl-demo/target/release/resctl-bench
+
       - name: Smoke-test benchmark-database-ci
-        run: ${GITHUB_WORKSPACE}/ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
+        run: ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
         
       - name: Smoke-test resctl-bench
-        run: ${GITHUB_WORKSPACE}/ci-scripts/resctl-demo/target/release/resctl-bench
+        run: ci-scripts/resctl-demo/target/release/resctl-bench
