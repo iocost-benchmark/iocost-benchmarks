@@ -1,8 +1,7 @@
-name: Run ci-scripts
+name: Issue event
 
 on:
-  push:
-  pull_request:
+  issues:
 
 jobs:
   run:
@@ -25,12 +24,12 @@ jobs:
 
       - name: Smoke-test benchmark-database-ci
         run: ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
-        
+
       - name: Smoke-test resctl-bench
         run: ci-scripts/resctl-demo/target/release/resctl-bench --help
 
-      - name: Run CI script
+      - name: Run CI script for issue event
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: ci-scripts/ci-scripts/target/release/benchmark-database-ci test-github
+        run: ci-scripts/ci-scripts/target/release/benchmark-database-ci issue-event
