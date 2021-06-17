@@ -18,6 +18,8 @@ jobs:
           workflow: build-ci-scripts.yml
           repo: 'iocost-benchmark/ci-scripts'
 
-      - name: Find files
-        run: find ${GITHUB_WORKSPACE}
-
+      - name: Smoke-test benchmark-database-ci
+        run: ${GITHUB_WORKSPACE}/ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
+        
+      - name: Smoke-test resctl-bench
+        run: ${GITHUB_WORKSPACE}/ci-scripts/resctl-demo/target/release/resctl-bench
