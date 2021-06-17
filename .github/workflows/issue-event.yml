@@ -19,13 +19,13 @@ jobs:
 
       - name: Set permissions on ci-scripts
         run: |
-          chmod +x benchmark-database-ci
+          chmod +x ci-scripts/benchmark-database-ci
 #          chmod +x ci-scripts/ci-scripts/target/release/benchmark-database-ci
 #          chmod +x ci-scripts/resctl-demo/target/release/resctl-bench
 
       - name: Smoke-test benchmark-database-ci
         #run: ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
-        run: benchmark-database-ci --help
+        run: ci-scripts/benchmark-database-ci --help
 
 #      - name: Smoke-test resctl-bench
 #        run: ci-scripts/resctl-demo/target/release/resctl-bench --help
@@ -35,4 +35,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         #run: ci-scripts/ci-scripts/target/release/benchmark-database-ci issue-event
-        run: benchmark-database-ci issue-event
+        run: ci-scripts/benchmark-database-ci issue-event
