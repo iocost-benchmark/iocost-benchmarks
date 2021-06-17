@@ -33,4 +33,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: benchmark-database-ci test-github
+        run: ci-scripts/ci-scripts/target/release/benchmark-database-ci test-github
