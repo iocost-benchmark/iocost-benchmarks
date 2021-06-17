@@ -20,13 +20,13 @@ jobs:
       - name: Set permissions on ci-scripts
         run: |
           chmod +x ci-scripts/ci-scripts/target/release/benchmark-database-ci
-          chmod +x ci-scripts/resctl-demo/target/release/resctl-bench
+#          chmod +x ci-scripts/resctl-demo/target/release/resctl-bench
 
       - name: Smoke-test benchmark-database-ci
         run: ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
 
-      - name: Smoke-test resctl-bench
-        run: ci-scripts/resctl-demo/target/release/resctl-bench --help
+#      - name: Smoke-test resctl-bench
+#        run: ci-scripts/resctl-demo/target/release/resctl-bench --help
 
       - name: Run CI script for issue event
         env:
