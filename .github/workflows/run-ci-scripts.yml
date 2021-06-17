@@ -28,3 +28,9 @@ jobs:
         
       - name: Smoke-test resctl-bench
         run: ci-scripts/resctl-demo/target/release/resctl-bench --help
+
+      - name: Run CI script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: benchmark-database-ci test-github
