@@ -21,7 +21,7 @@ jobs:
 
       - name: Set CI script permissions
         run: |
-          chmod +x iocost-benchmarks-ci/benchmark-database-ci
+          chmod +x iocost-benchmarks-ci/iocost-benchmarks-ci
           # resctl-bench isn't yet included
           # chmod +x iocost-benchmarks-ci/resctl-demo/target/release/resctl-bench
 
@@ -29,4 +29,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: iocost-benchmarks-ci/benchmark-database-ci issue-event
+        run: iocost-benchmarks-ci/iocost-benchmarks-ci ci-event
