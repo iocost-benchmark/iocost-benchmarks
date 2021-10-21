@@ -5,7 +5,7 @@ on:
 
 jobs:
   run:
-    name: Run ci-scripts
+    name: Run CI scripts
     runs-on: ubuntu-latest
     steps:
       - name: Checkout benchmarks repository
@@ -15,24 +15,16 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow: build-ci-scripts.yml
-          repo: 'iocost-benchmark/ci-scripts'
+          repo: 'iocost-benchmark/iocost-benchmarks-ci'
 
-      - name: Set permissions on ci-scripts
+      - name: Set CI script permissions
         run: |
-          chmod +x ci-scripts/benchmark-database-ci
-#          chmod +x ci-scripts/ci-scripts/target/release/benchmark-database-ci
-#          chmod +x ci-scripts/resctl-demo/target/release/resctl-bench
+          chmod +x iocost-benchmarks-ci/benchmark-database-ci
+          # resctl-bench isn't yet included
+          # chmod +x iocost-benchmarks-ci/resctl-demo/target/release/resctl-bench
 
-      - name: Smoke-test benchmark-database-ci
-        #run: ci-scripts/ci-scripts/target/release/benchmark-database-ci --help
-        run: ci-scripts/benchmark-database-ci --help
-
-#      - name: Smoke-test resctl-bench
-#        run: ci-scripts/resctl-demo/target/release/resctl-bench --help
-
-      - name: Run CI script for issue event
+      - name: Run CI scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        #run: ci-scripts/ci-scripts/target/release/benchmark-database-ci issue-event
-        run: ci-scripts/benchmark-database-ci issue-event
+        run: iocost-benchmarks-ci/benchmark-database-ci issue-event
