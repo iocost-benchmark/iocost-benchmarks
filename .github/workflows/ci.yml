@@ -1,6 +1,7 @@
-name: Issue event
+name: CI
 
 on:
+  workflow_dispatch:
   issues:
 
 jobs:
