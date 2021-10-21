@@ -3,6 +3,7 @@ name: CI
 on:
   workflow_dispatch:
   issues:
+  issue_comment:
 
 jobs:
   run:
