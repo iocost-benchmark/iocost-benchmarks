@@ -3,32 +3,29 @@ name: CI
 on:
   workflow_dispatch:
   issues:
+    types: [opened, edited]
   issue_comment:
+    types: [created, edited]
 
 jobs:
   run:
+    if: (github.event.issue.state == 'open') && !github.event.issue.locked
     name: Run CI scripts
     runs-on: ubuntu-latest
     steps:
       - name: Checkout benchmarks repository
         uses: actions/checkout@v2
 
-
-      - name: Download iocost-benchmarks-ci binary
+      - name: Download import-results binary
         uses: dawidd6/action-download-artifact@v2
         with:
           repo: 'iocost-benchmark/iocost-benchmarks-ci'
           workflow: ci.yml
           branch: main
 
-      - name: Set iocost-benchmarks-ci binary permissions
+      - name: Set import-results binary permissions
         run: |
-          chmod +x iocost-benchmarks-ci/iocost-benchmarks-ci
-
-      - name: Smoketest iocost-benchmarks-ci
-        run: |
-          iocost-benchmarks-ci/iocost-benchmarks-ci --version
-
+          chmod +x iocost-benchmarks-ci/import-results
 
       - name: Download resctl-demo binary
         uses: dawidd6/action-download-artifact@v2
@@ -39,16 +36,40 @@ jobs:
 
       - name: Set resctl-demo permissions
         run: |
-          chmod +x resctl-demo/resctl-bench
+          chmod +x resctl-demo/*
 
       - name: Smoketest resctl-demo
-        run: |
-          resctl-demo/resctl-bench --version
+        run: >
+          resctl-demo/resctl-bench --version;
+          echo ${GITHUB_WORKSPACE}/resctl-demo >> $GITHUB_PATH
 
-
-      - name: Run iocost-benchmarks-ci script
+      - name: Run import-results
         env:
-          RESCTL_BENCH: resctl-demo/resctl-bench
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: iocost-benchmarks-ci/iocost-benchmarks-ci ci-event
+        run: iocost-benchmarks-ci/import-results
+
+      - name: Push to git
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git push -f origin iocost-bot/${ISSUE_NUMBER}
+          echo 'BRANCH_NAME<<EOF' >> $GITHUB_ENV
+          echo iocost-bot/${ISSUE_NUMBER} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: PR title
+        run: |
+          echo 'PR_TITLE<<EOF' >> $GITHUB_ENV
+          git log --pretty='format:%s%n' ${{ env.BRANCH_NAME }}^..${{ env.BRANCH_NAME }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: PR body
+        run: |
+          echo 'PR_BODY<<EOF' >> $GITHUB_ENV
+          git log --pretty='format:%b%n' ${{ env.BRANCH_NAME }}^..${{ env.BRANCH_NAME }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Pull request
+        run: |
+          echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
+          gh pr create --fill -B main -H ${{ env.BRANCH_NAME }}
