@@ -19,7 +19,7 @@ jobs:
       - name: Download import-results binary
         uses: dawidd6/action-download-artifact@v2
         with:
-          repo: 'iocost-benchmark/iocost-benchmarks-ci'
+          repo: ${{ format('{0}-ci', github.repository) }}
           workflow: ci.yml
           branch: main
 
@@ -30,7 +30,7 @@ jobs:
       - name: Download resctl-demo binary
         uses: dawidd6/action-download-artifact@v2
         with:
-          repo: 'iocost-benchmark/iocost-benchmarks-ci'
+          repo:  ${{ format('{0}-ci', github.repository) }}
           workflow: build-resctl-demo.yml
           branch: main
 
