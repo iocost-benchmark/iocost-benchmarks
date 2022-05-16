@@ -36,12 +36,12 @@ jobs:
 
       - name: Set resctl-demo permissions
         run: |
-          chmod +x resctl-demo/*
+          chmod +x resctl-demo-v*/*
 
       - name: Smoketest resctl-demo
         run: >
-          resctl-demo/resctl-bench --version;
-          echo ${GITHUB_WORKSPACE}/resctl-demo >> $GITHUB_PATH
+          resctl-demo-v2.1/resctl-bench --version;
+          resctl-demo-v2.2/resctl-bench --version;
 
       - name: Run import-results
         env:
