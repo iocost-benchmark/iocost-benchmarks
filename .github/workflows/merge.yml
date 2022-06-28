@@ -1,31 +1,29 @@
-name: CI
+name: Merge results
 
 on:
   workflow_dispatch:
-  issues:
-    types: [opened, edited]
-  issue_comment:
-    types: [created, edited]
+  push:
+    branches:
+      - main
 
 jobs:
   run:
-    if: (github.event.issue.state == 'open') && !github.event.issue.locked
-    name: Run CI scripts
+    name: Merge results
     runs-on: ubuntu-latest
     steps:
       - name: Checkout benchmarks repository
         uses: actions/checkout@v2
 
-      - name: Download import-results binary
+      - name: Download merge-results binary
         uses: dawidd6/action-download-artifact@v2
         with:
           repo: ${{ format('{0}-ci', github.repository) }}
           workflow: ci.yml
           branch: main
 
-      - name: Set import-results binary permissions
+      - name: Set merge-results binary permissions
         run: |
-          chmod +x iocost-benchmarks-ci/import-results
+          chmod +x iocost-benchmarks-ci/merge-results
 
       - name: Download resctl-demo binary
         uses: dawidd6/action-download-artifact@v2
@@ -51,36 +49,10 @@ jobs:
           sudo apt install inkscape ghostscript
           sudo sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
 
-      - name: Run import-results
+      - name: Run merge-results
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: iocost-benchmarks-ci/import-results
-
-      - name: Push to git
-        env:
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: |
-          git push -f origin iocost-bot/${ISSUE_NUMBER}
-          echo 'BRANCH_NAME<<EOF' >> $GITHUB_ENV
-          echo iocost-bot/${ISSUE_NUMBER} >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
-      - name: PR title
-        run: |
-          echo 'PR_TITLE<<EOF' >> $GITHUB_ENV
-          git log --pretty='format:%s%n' ${{ env.BRANCH_NAME }}^..${{ env.BRANCH_NAME }} >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
-      - name: PR body
-        run: |
-          echo 'PR_BODY<<EOF' >> $GITHUB_ENV
-          git log --pretty='format:%b%n' ${{ env.BRANCH_NAME }}^..${{ env.BRANCH_NAME }} >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
-      - name: Pull request
-        run: |
-          echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
-          gh pr create --fill -B main -H ${{ env.BRANCH_NAME }}
+        run: iocost-benchmarks-ci/merge-results
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -88,4 +60,4 @@ jobs:
           name: PDFs
           if-no-files-found: error
           path: |
-            ${{ format('pdfs-for-{0}', github.event.issue.number) }}
+            pdfs
