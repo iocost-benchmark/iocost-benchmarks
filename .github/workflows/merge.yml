@@ -61,3 +61,19 @@ jobs:
           if-no-files-found: error
           path: |
             pdfs
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: hwdb input files
+          if-no-files-found: error
+          path: |
+            hwdb-inputs
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Final hwdb file
+          if-no-files-found: error
+          path: |
+            90-iocost-tune.hwdb
