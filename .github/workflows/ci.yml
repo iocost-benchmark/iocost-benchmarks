@@ -82,10 +82,15 @@ jobs:
           echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
           gh pr create --fill -B main -H ${{ env.BRANCH_NAME }}
 
-      - name: Upload artifacts
+      - name: Upload PDFs
         uses: actions/upload-artifact@v2
         with:
           name: PDFs
           if-no-files-found: error
           path: |
             ${{ format('pdfs-for-{0}', github.event.issue.number) }}
+
+      - name: Update issue with a link
+        run: |
+          echo ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          gh issue comment -b "You can find the PDFs for the new merges here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" ${{ github.event.issue.number }}
