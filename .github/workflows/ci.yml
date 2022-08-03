@@ -1,4 +1,4 @@
-name: CI
+name: Import results from issue
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ on:
 jobs:
   run:
     if: (github.event.issue.state == 'open') && !github.event.issue.locked
-    name: Run CI scripts
+    name: Import results
     runs-on: ubuntu-latest
     steps:
       - name: Checkout benchmarks repository
