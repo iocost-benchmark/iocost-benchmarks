@@ -54,9 +54,13 @@ jobs:
       - name: Run import-results
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: iocost-benchmarks-ci/import-results
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          iocost-benchmarks-ci/import-results
+          if git rev-parse --verify iocost-bot/${ISSUE_NUMBER}; then echo DID_IMPORT=1 >> $GITHUB_ENV; else echo DID_IMPORT=0 >> $GITHUB_ENV; fi
 
       - name: Push to git
+        if: env.DID_IMPORT == '1'
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
@@ -66,23 +70,27 @@ jobs:
           echo 'EOF' >> $GITHUB_ENV
 
       - name: PR title
+        if: env.DID_IMPORT == '1'
         run: |
           echo 'PR_TITLE<<EOF' >> $GITHUB_ENV
           git log --pretty='format:%s%n' ${{ env.BRANCH_NAME }}^..${{ env.BRANCH_NAME }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: PR body
+        if: env.DID_IMPORT == '1'
         run: |
           echo 'PR_BODY<<EOF' >> $GITHUB_ENV
           git log --pretty='format:%b%n' ${{ env.BRANCH_NAME }}^..${{ env.BRANCH_NAME }} >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Pull request
+        if: env.DID_IMPORT == '1'
         run: |
           echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
           gh pr create --fill -B main -H ${{ env.BRANCH_NAME }}
 
       - name: Upload PDFs
+        if: env.DID_IMPORT == '1'
         uses: actions/upload-artifact@v2
         with:
           name: PDFs
@@ -91,6 +99,7 @@ jobs:
             ${{ format('pdfs-for-{0}', github.event.issue.number) }}
 
       - name: Update issue with a link
+        if: env.DID_IMPORT == '1'
         run: |
           echo ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           gh issue comment -b "You can find the PDFs for the new merges here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" ${{ github.event.issue.number }}
