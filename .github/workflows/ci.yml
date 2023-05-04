@@ -85,9 +85,9 @@ jobs:
 
       - name: Pull request
         if: env.DID_IMPORT == '1'
-        run: |
-          echo ${{ secrets.GH_TOKEN }} | gh auth login --with-token
-          gh pr edit ${{ env.BRANCH_NAME }} -b '${{ env.PR_BODY }}' -t '${{ env.PR_TITLE }}'  && gh pr reopen ${{ env.BRANCH_NAME }} || gh pr create --fill -B main -H ${{ env.BRANCH_NAME }}
+        run: gh pr edit ${{ env.BRANCH_NAME }} -b '${{ env.PR_BODY }}' -t '${{ env.PR_TITLE }}'  && gh pr reopen ${{ env.BRANCH_NAME }} || gh pr create --fill -B main -H ${{ env.BRANCH_NAME }}
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Upload PDFs
         if: env.DID_IMPORT == '1'
