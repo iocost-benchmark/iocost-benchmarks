@@ -79,7 +79,7 @@ jobs:
             hwdb-inputs
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Final hwdb file
           if-no-files-found: error
