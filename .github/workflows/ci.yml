@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout benchmarks repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download import-results binary
         uses: dawidd6/action-download-artifact@v2
