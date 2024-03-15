@@ -5,6 +5,10 @@ the [resctl-bench](https://github.com/facebookexperimental/resctl-demo) tool
 and overall parameter sets which have been generated from these user-submitted
 benchmarks.
 
+You can create an installable image to run the benchmark by downloading
+[this image](https://github.com/iocost-benchmark/resctl-demo-image-recipe/actions/runs/8270027079/artifacts/1323583118)
+and following [this instruction](https://github.com/iocost-benchmark/resctl-demo-image-recipe/blob/main/DEPLOY.md).
+
 ## Licence
 
 All submitted benchmarks shall be licened under the `LICENCE` file in the root
