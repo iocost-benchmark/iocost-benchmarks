@@ -6,7 +6,7 @@ and overall parameter sets which have been generated from these user-submitted
 benchmarks.
 
 You can create an installable image to run the benchmark by downloading
-[this image](https://github.com/iocost-benchmark/resctl-demo-image-recipe/actions/runs/8270027079/artifacts/1323583118)
+[this image](https://nightly.link/iocost-benchmark/resctl-demo-image-recipe/workflows/ci.yaml/main/resctl-demo-flasher-efiboot.zip)
 and following [this instruction](https://github.com/iocost-benchmark/resctl-demo-image-recipe/blob/main/DEPLOY.md).
 
 ## Licence
