@@ -41,12 +41,13 @@ jobs:
           resctl-demo-v2.1/resctl-bench --version
           resctl-demo-v2.2/resctl-bench --version
 
-      - name: Install PDF formatting dependencies and fix config
+      - name: Install PDF formatting dependencies
         run: |
           mkdir -p ~/.fonts/adobe-fonts
           git clone https://github.com/adobe-fonts/source-code-pro.git ~/.fonts/adobe-fonts/source-code-pro
           fc-cache -f -v ~/.fonts/adobe-fonts/source-code-pro
-          sudo apt install inkscape ghostscript
+          sudo apt update
+          sudo apt install --yes inkscape ghostscript
           sudo sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
 
       - name: Run merge-results
