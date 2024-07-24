@@ -16,10 +16,38 @@ of the repository.
 
 ## Submitting a benchmark
 
+### Manual 
+
 To submit a benchmark, a user should create an issue in this repository using
 the `Benchmark submission` issue template and attach the result(s) with the
 extension `.json.gz` to the issue by dragging and dropping the file on to the
 issue body.
+
+### Automated with AWS lambda workflow
+
+The submission of benchmark has been automated using [AWS lambda workflow](https://github.com/facebookexperimental/resctl-demo/blob/main/resctl-bench/doc/lambda.md) which does the work of submitting issue with link to `.json.gz`.   
+The user needs to upload benchmark result to the AWS using lambda function url as:
+`resctl-bench -r <RESULT_JSON> upload --upload-url  <AWS lambda function URL>`  
+e.g  
+`$resctl-bench --result resctl-bench-result_2022_07_01-00_26_40.json.gz upload --upload-url https://ygvr6jnjckwamfao5xztg6idiu0ukjeb.lambda-url.eu-west-1.on.aws`
+
+
+## CI workflow
+
+### Importing result
+
+Once issue is created, the github action `import-result` gets triggered, which downloads the benchmark result and create the Pull request for merging it to `main` repo along with metadata information.
+
+### Merging result
+
+The Pull request created by importing steps should be approved and merged manually to `main` branch. Once merged, github action `Merge results` merges the benchmarks data and generates the final hwdb file.  
+
+The following artifcats are uploaded to the CI workflow for each trigger:
+  - Final hwdb file
+  - Merged results
+  - PDFs
+  - hwdb input Files
+
 
 ## Contributing
 
