@@ -20,7 +20,7 @@ of the repository.
 
 To submit a benchmark, users should create a GitHub issue in this repository using
 the `Benchmark submission` issue template and attach the result(s) with the
-extension `.json.gz` to the issue by dragging and dropping the file on to the
+extension `.json.gz` to the issue by dragging and dropping the file into the
 issue body.
 
 ### Automated with AWS lambda workflow
