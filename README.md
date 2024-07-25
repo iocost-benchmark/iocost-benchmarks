@@ -16,7 +16,7 @@ of the repository.
 
 ## Submitting a benchmark
 
-### Manual 
+### Creating a GitHub issue
 
 To submit a benchmark, a user should create an issue in this repository using
 the `Benchmark submission` issue template and attach the result(s) with the
