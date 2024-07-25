@@ -18,7 +18,7 @@ of the repository.
 
 ### Creating a GitHub issue
 
-To submit a benchmark, a user should create an issue in this repository using
+To submit a benchmark, users should create a GitHub issue in this repository using
 the `Benchmark submission` issue template and attach the result(s) with the
 extension `.json.gz` to the issue by dragging and dropping the file on to the
 issue body.
