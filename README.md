@@ -48,6 +48,8 @@ The following artifcats are uploaded to the CI workflow for each trigger:
   - PDFs
   - hwdb input Files
 
+It is still being determined how the project will store & distribute these files.
+
 
 ## Contributing
 
