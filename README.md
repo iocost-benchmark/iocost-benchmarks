@@ -36,7 +36,7 @@ e.g
 
 ### Importing result
 
-Once issue is created, the github action `import-result` gets triggered, which downloads the benchmark result and create the Pull request for merging it to `main` repo along with metadata information.
+Once a GitHub issue is created or updated the GitHub action `import-result` is triggered, which downloads the benchmark result and creates a GitHub pull request for merging it to the `main` branch along with additional metadata information.
 
 ### Merging result
 
