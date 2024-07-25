@@ -25,7 +25,7 @@ issue body.
 
 ### Automated with AWS lambda workflow
 
-The submission of benchmark has been automated using [AWS lambda workflow](https://github.com/facebookexperimental/resctl-demo/blob/main/resctl-bench/doc/lambda.md) which does the work of submitting issue with link to `.json.gz`.   
+The submission of benchmark has been automated using [AWS lambda workflow](https://github.com/facebookexperimental/resctl-demo/blob/main/resctl-bench/doc/lambda.md) which uploads the benchmark directly from the `resctl-bench` software. An AWS lambda function submits the issue with link to `.json.gz`. This allows users to upload benchmarks without a GitHub account.
 The user needs to upload benchmark result to the AWS using lambda function url as:
 `resctl-bench -r <RESULT_JSON> upload --upload-url  <AWS lambda function URL>`  
 e.g  
