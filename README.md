@@ -40,7 +40,9 @@ Once a GitHub issue is created or updated the GitHub action `import-result` is t
 
 ### Merging results together with resctl-bench
 
-The Pull request created by importing steps should be approved and merged manually to `main` branch. Once merged, github action `Merge results` merges the benchmarks data and generates the final hwdb file.  
+The GitHub pull request created by the import job should be approved and merged manually to `main` branch.
+
+For the main branch, the GitHub action `Merge results` merges the benchmark data together and generates the final hwdb file containing the final parameters.
 
 The following artifcats are uploaded to the CI workflow for each trigger:
   - Final hwdb file
