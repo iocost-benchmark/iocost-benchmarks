@@ -59,7 +59,7 @@ jobs:
         run: iocost-benchmarks-ci/merge-results
 
       - name: Upload PDFs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: PDFs
           if-no-files-found: error
@@ -67,7 +67,7 @@ jobs:
             pdfs
 
       - name: Upload merged results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Merged results
           if-no-files-found: error
@@ -75,7 +75,7 @@ jobs:
             merged-results
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: hwdb input files
           if-no-files-found: error
@@ -83,7 +83,7 @@ jobs:
             hwdb-inputs
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Final hwdb file
           if-no-files-found: error
