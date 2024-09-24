@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: "0 1 * * 1"
   workflow_dispatch:
+    inputs:
+      mergeResultsBranch:
+        description: "Branch to download the merge-results binary artifact from"
+        required: false
+        default: main
   push:
     branches:
       - main
@@ -22,7 +27,7 @@ jobs:
         with:
           repo: ${{ format('{0}-ci', github.repository) }}
           workflow: ci.yml
-          branch: main
+          branch: ${{ github.event.inputs.mergeResultsBranch }}
 
       - name: Set merge-results binary permissions
         run: |
