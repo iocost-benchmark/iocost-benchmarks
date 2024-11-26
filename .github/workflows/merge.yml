@@ -31,7 +31,7 @@ jobs:
 
       - name: Set merge-results binary permissions
         run: |
-          chmod +x iocost-benchmarks-ci/merge-results
+          chmod +x iocost-benchmarks-ci/target/release/merge-results
 
       - name: Download resctl-demo binary
         uses: dawidd6/action-download-artifact@v6
@@ -61,7 +61,7 @@ jobs:
       - name: Run merge-results
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: iocost-benchmarks-ci/merge-results
+        run: iocost-benchmarks-ci/target/release/merge-results
 
       - name: Upload PDFs
         uses: actions/upload-artifact@v4
