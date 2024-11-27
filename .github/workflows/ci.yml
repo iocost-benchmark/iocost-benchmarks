@@ -25,7 +25,7 @@ jobs:
 
       - name: Set import-results binary permissions
         run: |
-          chmod +x iocost-benchmarks-ci/import-results
+          chmod +x iocost-benchmarks-ci/target/release/import-results
 
       - name: Download resctl-demo binary
         uses: dawidd6/action-download-artifact@v6
@@ -57,7 +57,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          iocost-benchmarks-ci/import-results
+          iocost-benchmarks-ci/target/release/import-results
           if git rev-parse --verify iocost-bot/${ISSUE_NUMBER}; then echo DID_IMPORT=1 >> $GITHUB_ENV; else echo DID_IMPORT=0 >> $GITHUB_ENV; fi
 
       - name: Push to git
