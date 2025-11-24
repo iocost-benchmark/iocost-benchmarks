@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout benchmarks repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download merge-results binary
         uses: dawidd6/action-download-artifact@v8
